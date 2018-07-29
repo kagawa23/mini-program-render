@@ -1,0 +1,71 @@
+<style lang="less">
+.detail {
+  display: block;
+  swiper {
+    height: 200px;
+  }
+  .slide-image {
+    width: 100%;
+    height: 100%;
+  }
+  .icon-play:before {
+    content: '\e62f';
+    font-size: 25rpx;
+    color: #fff;
+  }
+  .play-btn {
+    background-color: rgba(128, 128, 128, 0.5);
+    border: 5rpx solid white;
+    border-radius: 50rpx;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 0 35rpx;
+    font-size: 25rpx;
+    color: white;
+    line-height: 32rpx;
+  }
+  .description {
+    background: #f0f0f0;
+    padding: 50rpx;
+  }
+}
+</style>
+<template>
+<view class="detail">
+<swiper indicator-dots="{{indicatorDots}}" circular="true">
+  <block wx:for="{{imgUrls}}">
+  <swiper-item>
+      <a class="play-btn" wx:if="{{item.type == 'pano'}}" wx-bind:href="{{item.url}}">
+        3D<icon class="iconfont icon-play" size="20"/>
+      </a>
+      <image src="{{item.image}}" class="slide-image" />
+    </swiper-item>
+</block>
+
+</swiper>
+<view class="description">
+房间类型
+</view>
+
+</view>
+</template>
+<script>
+import wepy from 'wepy'
+export default class Card extends wepy.component {
+  props = {
+   // title: String
+  }
+  data = {
+    indicatorDots: true,
+    imgUrls: [
+      { type: 'pano', url: 'https://pano.homestyler.com/cn?m=p&id=b3mZWDQHQLTNx7fbPaZWf4', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
+      { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
+      { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-11-30/fbf96338-d880-4aaf-b6ac-b0bab1dd2bf3/78a6da0f_f0bc_4ea6_a090_6a2b4fc36d29.jpg' },
+      { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-11-30/7ca87416-393d-4323-9b1e-5d4c16acc0aa/d9d393d0_ec52_4cdb_8778_22a06a5fbc08.jpg' },
+      { type: 'image', image: 'https://s3.cn-north-1.amazonaws.com.cn/ezhome-prod-render-assets/floorplan/render/images/2017-11-9/599d13b2-d378-48d1-bd22-8a5a035275da/84b98929_0336_4b65_8ac9_c1b7e329bb95.jpg' }
+    ]
+  }
+}
+</script>

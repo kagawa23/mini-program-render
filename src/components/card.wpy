@@ -1,0 +1,96 @@
+<style lang="less">
+.text-space {
+  padding-left: 50rpx;
+  padding-right: 50rpx;
+  padding-top: 10rpx;
+}
+.icon-thumb:before {
+  content: '\e8de';
+  font-size: 25rpx;
+  color: #808080;
+}
+.icon-eye:before {
+  content: '\e6b9';
+  font-size: 25rpx;
+  color: #808080;
+}
+.icon-heart:before {
+  content: '\e629';
+  font-size: 25rpx;
+  color: #808080;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .image-group {
+    position: relative;
+    .design-image {
+      width: 100%;
+    }
+    .user-image {
+      width: 50rpx;
+      height: 50rpx;
+      position: absolute;
+      bottom: 0;
+      right: 20rpx;
+    }
+  }
+  .design-location {
+    font-size: 30rpx;
+    font-weight: 200;
+  }
+  .design-info {
+    display: flex;
+    view {
+      opacity: 0.8;
+    }
+    text {
+      font-size: 25rpx;
+      color: #808080;
+    }
+    .heart-info {
+      flex: 1;
+      padding-left: 10rpx;
+    }
+  }
+}
+</style>
+<template>
+<view class="card" @tap="selectCard">
+  <view class="image-group">
+  <image class="design-image" src="//s3.cn-north-1.amazonaws.com.cn/ezhome-prod-render-assets/floorplan/render/images/2017-8-22/d1ee8982-86b6-46d2-aa55-e7199556f674/c5a8ea0d_d4f9_42d7_b586_e8d79f39c5c1.jpg" />
+  <image class="user-image" src="//my.homestyler.com/cn/_nuxt/img/avatar_default2.c561647.png" />
+  </view>
+  <text class="design-title text-space" >舒然</text>
+  <view class="design-location text-space">
+      <text class="location" >北京</text>.
+      <text class="neighbor" >舒然小区</text>
+  </view>
+  <view class="design-info text-space">
+      <view class="thumb-info">
+      <icon class="iconfont icon-thumb" size="20"/><text class="like">500</text>
+      </view>
+      <view class="heart-info">
+      <icon class="iconfont icon-heart" size="20"/><text class="heart">500</text>
+      </view>
+      <view class="eye-info">
+      <icon class="iconfont icon-eye" size="20"/><text class="pv">500</text>
+      </view>
+  </view>
+</view>
+</template>
+<script>
+import wepy from 'wepy'
+export default class Card extends wepy.component {
+  props = {
+    title: String
+  }
+  methods = {
+    selectCard () {
+      console.log('select tab');
+      this.$emit('select-card')
+    }
+  }
+}
+</script>
