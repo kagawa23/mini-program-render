@@ -25,15 +25,19 @@
   width: 100%;
   .image-group {
     position: relative;
+    > image {
+      background-color: rgba(128, 128, 128, 0.2);
+    }
     .design-image {
       width: 100%;
     }
     .user-image {
-      width: 50rpx;
-      height: 50rpx;
+      width: 80rpx;
+      height: 80rpx;
       position: absolute;
       bottom: 0;
       right: 20rpx;
+      border-radius: 50%;
     }
   }
   .design-location {
@@ -42,8 +46,10 @@
   }
   .design-info {
     display: flex;
-    view {
+    padding-bottom: 10rpx;
+    > view {
       opacity: 0.8;
+      line-height: 30rpx;
     }
     text {
       font-size: 25rpx;
@@ -59,8 +65,8 @@
 <template>
 <view class="card" @tap="selectCard">
   <view class="image-group">
-  <image class="design-image" alt="cover image" src="{{ coverUrl }}" /> design:{{console.log(design)}}
-  <image class="user-image"  alt="designer image" src="{{ avatar }}" />
+  <image lazy-load="true" class="design-image" alt="cover image" src="{{ cover }}" />
+  <image lazy-load="true" class="user-image"  alt="designer image" src="{{ avatar }}" />
   </view>
   <text class="design-title text-space" >{{ title }}</text>
   <view class="design-location text-space">
@@ -84,24 +90,11 @@
 import wepy from 'wepy'
 export default class Card extends wepy.component {
   props = {
-   // title: String
     design : Object,
+    assetId: String,
+
   }
-  data = {
-    // cover: this.design.coverUrl,
-    // avatar: this.design.designerAvatar,
-    // location: this.design.style,
-    // neighbor: this.design.area,
-    // title: this.design.designName,
-    cover: "",
-    avatar: "",
-    location: "",
-    neighbor: "",
-    title: "",
-    like: '500',
-    heart: '500',
-    pv: '500'
-  }
+
   methods = {
     selectCard () {
       // console.log('select tab');

@@ -1,6 +1,6 @@
 const HOST_NAME = 'https://api.homestyler.com'
 
-export function fetchDesigns(offset = 0, limit = 20) {
+export function fetchDesigns(offset = 0, limit = 5) {
   // return fetch().then(resp => resp.json())
   return new Promise(resolve => {
     wx.request({

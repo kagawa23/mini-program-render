@@ -14,39 +14,35 @@
 .userinfo-nickname {
   color: #aaa;
 }
+
+.scroll-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 </style>
 <template>
   <view class="container" >
-    <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-      <!-- <block wx:for="{{designs}}">
-            <view class="container"  wx:if="{{item.designCover}}">
-                <card @select-card.user="tap" :design="item"/>
-              </view>
-      </block> -->
 
-        <repeat for="{{designs}}" item="item" key="assetId">
-          <view class="container">
-            <card @select-card.user="tap" :item.sync="item"/>
-            <view >{{ JSON.stringify(item) }}</view>
-          </view>
+    <scroll-view class="scroll-container" scroll-y="true" bindscrolltolower="lower" bindscroll="scroll" enable-back-to-top="true" scroll-top="{{scrollTop}}">
+        <repeat wx:if="{{ designs.length >0 }}" for="{{designs}}" item="item" key="assetId">
+            <card
+              @select-card.user="tap"
+              :assetId="item.assetId"
+              :cover="item.designCover"
+              :avatar="item.designerAvatar"
+              :title="item.designName"
+              :location="item.style"
+              :neighbor="item.style"
+              :pv="item.browseCount"
+              :heart="item.favoriteCount"
+              :like="item.favoriteCount"
+              :neighbor="item.area"
+            />
         </repeat>
-      <!-- <view class="container" >
-      <card @select-card.user="tap"/>
-      </view>      
-      <view class="container" >
-      <card @select-card.user="tap"/>
-      </view>           
-       <view class="container" >
-      <card @select-card.user="tap"/>
-      </view>     
-      <view class="container" >
-      <card @select-card.user="tap"/>
-      </view>     
-      <view class="container" >
-      <card @select-card.user="tap"/>
-      </view>      -->
   </scroll-view>
-    <!-- <card @select-card.user="tap"/> -->
   </view>
 </template>
 
@@ -64,7 +60,10 @@
     }
 
     data = {
-      designs:[]
+      designs:[],
+      offset:0,
+      limit:5,
+      scrollTop:100
     }
 
     computed = {
@@ -81,27 +80,45 @@
         wx.navigateTo({
           url: `/pages/detail?id=${id}`  // 打开一个新的同路由页面，但指定不同的数据初始值
         })
+      },
+      scroll(){
+        console.log('scroll');
+      },
+      lower(){
+        console.log('get lower');
       }
     }
 
     events = {
     }
 
+    // async lower(){
+    //   console.log('get lower value');
+    //   const newOffset = this.offset + this.limit;
+    //   const {data:{cases,offset, limit}} = await fetchDesigns();
+    //   this.designs = this.designs.concat(cases);
+    //   this.offset = offset;
+    //   this.limit = limit;
+    //   //console.log(cases);
+    //   this.$apply();
+    // }
     async loadList(){
       const {data:{cases,offset, limit}} = await fetchDesigns();
       // console.log(offset)
       // console.log(cases);
       this.designs = cases;
-      console.log(cases);
+      this.offset = offset;
+      this.limit = limit;
+      //console.log(cases);
       this.$apply();
       wx.hideLoading();
     }
 
     onLoad() {
-    wx.showLoading({
-      title: '加载中'
-    })
-    this.loadList()
+      wx.showLoading({
+        title: '加载中'
+      })
+      this.loadList()
+      }
     }
-  }
 </script>
