@@ -34,7 +34,7 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/detail'
+      'pages/detail',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -54,7 +54,8 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    this.testAsync()
+   // this.testAsync()
+    // this.requestDesigns();
   }
 
   sleep (s) {
@@ -65,8 +66,8 @@ export default class extends wepy.app {
     })
   }
 
-  async testAsync () {
-    const data = await this.sleep(3)
+  async requestDesigns () {
+    const data = await fetchDesigns(3)
     console.log(data)
   }
 

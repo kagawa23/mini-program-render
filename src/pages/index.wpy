@@ -17,12 +17,42 @@
 </style>
 <template>
   <view class="container" >
-    <card @select-card.user="tap"/>
+    <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+      <!-- <block wx:for="{{designs}}">
+            <view class="container"  wx:if="{{item.designCover}}">
+                <card @select-card.user="tap" :design="item"/>
+              </view>
+      </block> -->
+
+        <repeat for="{{designs}}" item="item" key="assetId">
+          <view class="container">
+            <card @select-card.user="tap" :item.sync="item"/>
+            <view >{{ JSON.stringify(item) }}</view>
+          </view>
+        </repeat>
+      <!-- <view class="container" >
+      <card @select-card.user="tap"/>
+      </view>      
+      <view class="container" >
+      <card @select-card.user="tap"/>
+      </view>           
+       <view class="container" >
+      <card @select-card.user="tap"/>
+      </view>     
+      <view class="container" >
+      <card @select-card.user="tap"/>
+      </view>     
+      <view class="container" >
+      <card @select-card.user="tap"/>
+      </view>      -->
+  </scroll-view>
+    <!-- <card @select-card.user="tap"/> -->
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import { fetchDesigns } from '../io/request'
   import Card from '../components/card'
 
   export default class Index extends wepy.page {
@@ -34,6 +64,7 @@
     }
 
     data = {
+      designs:[]
     }
 
     computed = {
@@ -56,7 +87,21 @@
     events = {
     }
 
+    async loadList(){
+      const {data:{cases,offset, limit}} = await fetchDesigns();
+      // console.log(offset)
+      // console.log(cases);
+      this.designs = cases;
+      console.log(cases);
+      this.$apply();
+      wx.hideLoading();
+    }
+
     onLoad() {
+    wx.showLoading({
+      title: '加载中'
+    })
+    this.loadList()
     }
   }
 </script>

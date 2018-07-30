@@ -59,23 +59,23 @@
 <template>
 <view class="card" @tap="selectCard">
   <view class="image-group">
-  <image class="design-image" src="//s3.cn-north-1.amazonaws.com.cn/ezhome-prod-render-assets/floorplan/render/images/2017-8-22/d1ee8982-86b6-46d2-aa55-e7199556f674/c5a8ea0d_d4f9_42d7_b586_e8d79f39c5c1.jpg" />
-  <image class="user-image" src="//my.homestyler.com/cn/_nuxt/img/avatar_default2.c561647.png" />
+  <image class="design-image" alt="cover image" src="{{ coverUrl }}" /> design:{{console.log(design)}}
+  <image class="user-image"  alt="designer image" src="{{ avatar }}" />
   </view>
-  <text class="design-title text-space" >舒然</text>
+  <text class="design-title text-space" >{{ title }}</text>
   <view class="design-location text-space">
-      <text class="location" >北京</text>.
-      <text class="neighbor" >舒然小区</text>
+      <text class="location" >{{ location }}</text>.
+      <text class="neighbor" >{{ neighbor }}</text>
   </view>
   <view class="design-info text-space">
       <view class="thumb-info">
-      <icon class="iconfont icon-thumb" size="20"/><text class="like">500</text>
+      <icon class="iconfont icon-thumb" size="20"/><text class="like">{{ like }}</text>
       </view>
       <view class="heart-info">
-      <icon class="iconfont icon-heart" size="20"/><text class="heart">500</text>
+      <icon class="iconfont icon-heart" size="20"/><text class="heart">{{ heart }}</text>
       </view>
       <view class="eye-info">
-      <icon class="iconfont icon-eye" size="20"/><text class="pv">500</text>
+      <icon class="iconfont icon-eye" size="20"/><text class="pv">{{ pv }}</text>
       </view>
   </view>
 </view>
@@ -84,11 +84,27 @@
 import wepy from 'wepy'
 export default class Card extends wepy.component {
   props = {
-    title: String
+   // title: String
+    design : Object,
+  }
+  data = {
+    // cover: this.design.coverUrl,
+    // avatar: this.design.designerAvatar,
+    // location: this.design.style,
+    // neighbor: this.design.area,
+    // title: this.design.designName,
+    cover: "",
+    avatar: "",
+    location: "",
+    neighbor: "",
+    title: "",
+    like: '500',
+    heart: '500',
+    pv: '500'
   }
   methods = {
     selectCard () {
-      console.log('select tab');
+      // console.log('select tab');
       this.$emit('select-card')
     }
   }

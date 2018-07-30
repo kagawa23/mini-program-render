@@ -37,13 +37,12 @@
 <swiper indicator-dots="{{indicatorDots}}" circular="true">
   <block wx:for="{{imgUrls}}">
   <swiper-item>
-      <a class="play-btn" wx:if="{{item.type == 'pano'}}" wx-bind:href="{{item.url}}">
+      <view class="play-btn" wx:if="{{item.type == 'pano'}}" @tap="goToViewer">
         3D<icon class="iconfont icon-play" size="20"/>
-      </a>
+      </view>
       <image src="{{item.image}}" class="slide-image" />
     </swiper-item>
 </block>
-
 </swiper>
 <view class="description">
 房间类型
@@ -60,12 +59,21 @@ export default class Card extends wepy.component {
   data = {
     indicatorDots: true,
     imgUrls: [
-      { type: 'pano', url: 'https://pano.homestyler.com/cn?m=p&id=b3mZWDQHQLTNx7fbPaZWf4', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
+      { type: 'pano', url: '/pages/viewer', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
       { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
       { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-11-30/fbf96338-d880-4aaf-b6ac-b0bab1dd2bf3/78a6da0f_f0bc_4ea6_a090_6a2b4fc36d29.jpg' },
       { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-11-30/7ca87416-393d-4323-9b1e-5d4c16acc0aa/d9d393d0_ec52_4cdb_8778_22a06a5fbc08.jpg' },
       { type: 'image', image: 'https://s3.cn-north-1.amazonaws.com.cn/ezhome-prod-render-assets/floorplan/render/images/2017-11-9/599d13b2-d378-48d1-bd22-8a5a035275da/84b98929_0336_4b65_8ac9_c1b7e329bb95.jpg' }
     ]
   }
+  methods = {
+    goToViewer:function(){
+      console.log('click 3d')
+        wx.navigateTo({
+          url: `/pages/viewer`  // 打开一个新的同路由页面，但指定不同的数据初始值
+        })
+    }
+  }
+  
 }
 </script>
