@@ -50,7 +50,6 @@
   import wepy from 'wepy'
   import { fetchDesigns } from '../io/request'
   import Card from '../components/card'
-
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '渲染图'
@@ -84,34 +83,33 @@
       scroll(){
         console.log('scroll');
       },
-      lower(){
-        console.log('get lower');
+      async lower(){
+        // console.log('get lower');
+        console.log('get lower value');
+        const newOffset = this.offset + this.limit;
+        this.requestData(newOffset);
       }
     }
 
     events = {
     }
 
-    // async lower(){
-    //   console.log('get lower value');
-    //   const newOffset = this.offset + this.limit;
-    //   const {data:{cases,offset, limit}} = await fetchDesigns();
-    //   this.designs = this.designs.concat(cases);
-    //   this.offset = offset;
-    //   this.limit = limit;
-    //   //console.log(cases);
-    //   this.$apply();
-    // }
-    async loadList(){
-      const {data:{cases,offset, limit}} = await fetchDesigns();
-      // console.log(offset)
-      // console.log(cases);
-      this.designs = cases;
-      this.offset = offset;
-      this.limit = limit;
-      //console.log(cases);
-      this.$apply();
+    async requestData(offS){
+        const {data:{cases, offset, limit}} = await fetchDesigns(offS);
+        this.designs = this.designs.concat(cases);
+        this.offset = offset;
+        this.limit = limit;
+        //console.log(cases);
+        this.$apply();
+    }
+
+    hideLoading(){
       wx.hideLoading();
+    }
+
+    async loadList(){
+        await this.requestData(0)
+        this.hideLoading();
     }
 
     onLoad() {

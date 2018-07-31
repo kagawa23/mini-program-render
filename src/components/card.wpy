@@ -98,7 +98,7 @@ export default class Card extends wepy.component {
   methods = {
     selectCard () {
       // console.log('select tab');
-      this.$emit('select-card')
+      this.$emit('select-card', this.assetId)
     }
   }
 }
