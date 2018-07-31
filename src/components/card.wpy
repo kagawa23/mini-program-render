@@ -70,7 +70,7 @@
   </view>
   <text class="design-title text-space" >{{ title }}</text>
   <view class="design-location text-space">
-      <text class="location" >{{ location }}</text>.
+      <text class="location" >{{ location }}{{ assetId }}</text>.
       <text class="neighbor" >{{ neighbor }}</text>
   </view>
   <view class="design-info text-space">
@@ -90,15 +90,16 @@
 import wepy from 'wepy'
 export default class Card extends wepy.component {
   props = {
-    design : Object,
+    // design : Object,
     assetId: String,
-
+  }
+  data = {
   }
 
   methods = {
     selectCard () {
       // console.log('select tab');
-      this.$emit('select-card', this.assetId)
+      this.$emit('select-card', this.$index)
     }
   }
 }
