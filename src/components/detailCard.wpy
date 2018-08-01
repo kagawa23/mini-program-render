@@ -34,18 +34,18 @@
 </style>
 <template>
 <view class="detail">
-<swiper indicator-dots="{{ imgUrls.length > 0 }}" circular="true" >
-  <block wx:for="{{imgUrls}}">
+<swiper indicator-dots="{{ photos > 0 }}" circular="true" >
+  <block wx:for="{{photos}}">
   <swiper-item>
       <view class="play-btn" wx:if="{{item.type == 'pano'}}" @tap="goToViewer">
         3D<icon class="iconfont icon-play" size="20"/>
       </view>
-      <image src="{{item.image}}" class="slide-image" />
+      <image src="{{item.photo}}" class="slide-image" />
     </swiper-item>
 </block>
 </swiper>
 <view class="description">
-房间类型
+{{title}} {{description}}
 </view>
 
 </view>
@@ -57,14 +57,6 @@ export default class Card extends wepy.component {
    // title: String
   }
   data = {
-    indicatorDots: true,
-    imgUrls: [
-      { type: 'pano', url: '/pages/viewer', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
-      { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-12-7/2cf57306-73f4-42f8-82f6-ee44aefd0a28/6f443039_b179_46a9_ad10_b0f9608a50a8.jpg' },
-      { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-11-30/fbf96338-d880-4aaf-b6ac-b0bab1dd2bf3/78a6da0f_f0bc_4ea6_a090_6a2b4fc36d29.jpg' },
-      { type: 'image', image: 'https://rs.homestyler.com/floorplan/render/images/2017-11-30/7ca87416-393d-4323-9b1e-5d4c16acc0aa/d9d393d0_ec52_4cdb_8778_22a06a5fbc08.jpg' },
-      { type: 'image', image: 'https://s3.cn-north-1.amazonaws.com.cn/ezhome-prod-render-assets/floorplan/render/images/2017-11-9/599d13b2-d378-48d1-bd22-8a5a035275da/84b98929_0336_4b65_8ac9_c1b7e329bb95.jpg' }
-    ]
   }
   methods = {
     goToViewer:function(){

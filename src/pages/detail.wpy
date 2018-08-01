@@ -2,7 +2,9 @@
 </style>
 <template>
   <view class="conatiner">
-    <card />
+    <repeat for="{{cards}}" item="item" key="index">
+      <card :title="item.title" :description="item.description" :photos="items.photos"></card>
+    </repeat>
   </view>
 </template>
 
@@ -24,6 +26,23 @@ export default class Detail extends wepy.page {
     description:'',
     photo2DUrl:''
   }
+  computed = {
+    cards:() => {
+      const rooms = this.spaceDetails.map(this.convertToCard);
+      // console.log(rooms);
+      return [{description:this.description, photos:[{photo:this.photo2DUrl, type:'image'}], title:"俯视图"}, ...rooms];
+    }
+  }
+
+  convertToCard(space) {
+    const { roomTypeCode:title, description, renderImgs } = space;
+    const photos = renderImgs.map(({renderType, coverUrl, photoUrl, photo360Url}) => ({
+      type:renderType,
+      photo:photoUrl || coverUrl,
+      photo360Url,
+    }))
+    return { title, description, photos}
+  }
 
   async loadingDetail(assetId){
     wx.showLoading({
@@ -33,7 +52,7 @@ export default class Detail extends wepy.page {
     if(!err){
       const {data:{spaceDetails,description,photo2DUrl}} = resp;
       this.spaceDetails = spaceDetails;
-      this.description = spaceDetails;
+      this.description = description;
       this.photo2DUrl = photo2DUrl;
       this.$apply();
     }

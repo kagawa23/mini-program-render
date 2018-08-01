@@ -70,7 +70,7 @@
   </view>
   <text class="design-title text-space" >{{ title }}</text>
   <view class="design-location text-space">
-      <text class="location" >{{ location }}{{ assetId }}</text>.
+      <text class="location" >{{ location }}</text>.
       <text class="neighbor" >{{ neighbor }}</text>
   </view>
   <view class="design-info text-space">
