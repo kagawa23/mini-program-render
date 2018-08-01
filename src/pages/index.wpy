@@ -30,7 +30,7 @@
         <repeat wx:if="{{ designs.length >0 }}" for="{{designs}}" item="item" key="assetId">
             <card
               @select-card.user="tap"
-              :assetId.sync="item.assetId"
+              :assetId="item.assetId"
               :cover="item.designCover"
               :avatar="item.designerAvatar"
               :title="item.designName"

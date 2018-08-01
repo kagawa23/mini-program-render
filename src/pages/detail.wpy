@@ -9,12 +9,42 @@
 <script>
 import wepy from 'wepy'
 import Card from '../components/detailCard'
+import { fetchDesignDetail } from '../io/request'
+
 export default class Detail extends wepy.page {
   config = {
     navigationBarTitleText: 'test'
   }
   components = {
     card: Card
+  }
+
+  data ={
+    spaceDetails:[],
+    description:'',
+    photo2DUrl:''
+  }
+
+  async loadingDetail(assetId){
+    wx.showLoading({
+        title: '加载中'
+    })
+    const [err ,resp] = await fetchDesignDetail(assetId);
+    if(!err){
+      const {data:{spaceDetails,description,photo2DUrl}} = resp;
+      this.spaceDetails = spaceDetails;
+      this.description = spaceDetails;
+      this.photo2DUrl = photo2DUrl;
+      this.$apply();
+    }
+    wx.hideLoading();
+  }
+
+  onLoad(options={}){
+    // console.log(options);
+    // console.log();
+    const {id} =options;
+    this.loadingDetail(id);
   }
 }
 </script>
