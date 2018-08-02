@@ -4,7 +4,7 @@
   <view class="conatiner detail">
     <repeat for="{{cards}}" item="item" key="index">
       <!-- <card :title="item.title" :description="item.description" :photos="items.photos"></card> -->
-        <card :content.sync="item"/>
+        <card :content.sync="item" @preview-image.user="tap" :cardIdx.sync="index"/>
     </repeat>
   </view>
 </template>
@@ -35,7 +35,17 @@ export default class Detail extends wepy.page {
       return res;
     }
   }
-
+  methods = {
+    tap(imageIdx, event) {
+      const spaceIdx = this.$index;
+      const urls = this.cards[spaceIdx]['photos'].map(({photo})=>photo);
+      const current = urls[imageIdx];
+      wx.previewImage({
+        current, // 当前显示图片的http链接
+        urls // 需要预览的图片http链接列表
+      })
+    }
+  }
   convertToCard(space) {
     const { roomTypeCode:title, description, renderImgs } = space;
     const photos = renderImgs.map(({renderType, coverUrl, photoUrl, photo360Url}) => ({

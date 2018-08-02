@@ -49,7 +49,8 @@
       <view class="play-btn" wx:if="{{item.type == 'panorama'}}" @tap="goToViewer">
         3D<icon class="iconfont icon-play" size="20"/>
       </view>
-      <image src="{{item.photo}}" class="slide-image" mode="{{ item.type === 'aerial'? 'aspectFit' : 'aspectFill' }}"/>
+      <view>{{ cardIdx }}</view>
+      <image data-idx="{{ index }}" @tap="goPreview" src="{{item.photo}}" class="slide-image" mode="{{ item.type === 'aerial'? 'aspectFit' : 'aspectFill' }}"/>
     </swiper-item>
 </block>
 </swiper>
@@ -73,19 +74,22 @@ export default class Card extends wepy.component {
     // description:cardContent.description,
   }
 
-  // computed = {
-  //   card:() =>{
-  //     return cardContent;
-  //   }
-  // }
-
   methods = {
     goToViewer:function(){
       console.log('click 3d')
         wx.navigateTo({
           url: `/pages/viewer`  // 打开一个新的同路由页面，但指定不同的数据初始值
         })
+    },
+    goPreview:function(options){
+      const imageIdx = options.currentTarget.dataset.idx
+      //this.$emit('preview-image', this.$index )
+     //  this.$emit('preview-image', this.$index )
     }
   }
+  // onLoad(){
+  //   console.log('onload')
+  //   this.content = content;
+  // }
 }
 </script>
