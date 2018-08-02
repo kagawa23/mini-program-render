@@ -1,9 +1,10 @@
 <style lang="less">
 </style>
 <template>
-  <view class="conatiner">
+  <view class="conatiner detail">
     <repeat for="{{cards}}" item="item" key="index">
-      <card :title="item.title" :description="item.description" :photos="items.photos"></card>
+      <!-- <card :title="item.title" :description="item.description" :photos="items.photos"></card> -->
+        <card :content.sync="item"/>
     </repeat>
   </view>
 </template>
@@ -30,7 +31,8 @@ export default class Detail extends wepy.page {
     cards:() => {
       const rooms = this.spaceDetails.map(this.convertToCard);
       // console.log(rooms);
-      return [{description:this.description, photos:[{photo:this.photo2DUrl, type:'image'}], title:"俯视图"}, ...rooms];
+      const res = !this.photo2DUrl?rooms :[{class:'head',description:this.description, photos:[{ photo:this.photo2DUrl, type:'aerial'}], title:"俯视图"}, ...rooms];
+      return res;
     }
   }
 

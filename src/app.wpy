@@ -24,6 +24,9 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+image {
+  background-color: rgba(128, 128, 128, 0.2);
+}
 </style>
 
 <script>

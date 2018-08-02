@@ -2,7 +2,7 @@
 .detail {
   display: block;
   swiper {
-    height: 200px;
+    height: 56.25vw;
   }
   .slide-image {
     width: 100%;
@@ -22,32 +22,43 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     padding: 0 35rpx;
-    font-size: 25rpx;
+    // font-size: 25rpx;
     color: white;
     line-height: 32rpx;
   }
+  .title,
   .description {
     background: #f0f0f0;
     padding: 50rpx;
   }
+  &.head {
+    .description {
+      font-size: 14px;
+    }
+    .slide-image {
+      background-color: white;
+    }
+  }
 }
 </style>
 <template>
-<view class="detail">
-<swiper indicator-dots="{{ photos > 0 }}" circular="true" >
-  <block wx:for="{{photos}}">
+<view class="{{ content.class? content.class+ ' detail' : 'detail' }}">
+<swiper indicator-dots="{{ content.photos.length > 1 }}" circular="true" >
+  <block wx:for="{{content.photos}}">
   <swiper-item>
-      <view class="play-btn" wx:if="{{item.type == 'pano'}}" @tap="goToViewer">
+      <view class="play-btn" wx:if="{{item.type == 'panorama'}}" @tap="goToViewer">
         3D<icon class="iconfont icon-play" size="20"/>
       </view>
-      <image src="{{item.photo}}" class="slide-image" />
+      <image src="{{item.photo}}" class="slide-image" mode="{{ item.type === 'aerial'? 'aspectFit' : 'aspectFill' }}"/>
     </swiper-item>
 </block>
 </swiper>
-<view class="description">
-{{title}} {{description}}
+<view class="title" wx:if='{{content.title}}'>
+{{content.title}}
 </view>
-
+<view wx:if='{{content.description}}' class="description">
+{{content.description}}
+</view>
 </view>
 </template>
 <script>
@@ -57,7 +68,17 @@ export default class Card extends wepy.component {
    // title: String
   }
   data = {
+    // title: cardContent.title,
+    // photos:cardContent.photos,
+    // description:cardContent.description,
   }
+
+  // computed = {
+  //   card:() =>{
+  //     return cardContent;
+  //   }
+  // }
+
   methods = {
     goToViewer:function(){
       console.log('click 3d')
