@@ -1,7 +1,20 @@
 <style lang="less">
+.detail {
+  .design-title {
+    text-align: center;
+  }
+  .design-info {
+    text-align: center;
+    font-size: 25rpx;
+    margin: 10px auto;
+    color: #808080;
+  }
+}
 </style>
 <template>
   <view class="conatiner detail">
+    <view class="design-title">{{name}}</view>
+    <view class="design-info">{{cityName}} {{roomArea}} {{bedRoomNum}}{{livingRoomNum}}{{bathRoomNum}}</view>
     <repeat for="{{cards}}" item="item" key="index">
       <!-- <card :title="item.title" :description="item.description" :photos="items.photos"></card> -->
         <card :content.sync="item" @preview-image.user="tap" :cardIdx.sync="index"/>
@@ -25,19 +38,28 @@ export default class Detail extends wepy.page {
   data ={
     spaceDetails:[],
     description:'',
-    photo2DUrl:''
+    photo2DUrl:'',
+    name:'',
+    cityName:'',
+    roomArea:'',
+    bedRoomNum:'',
+    livingRoomNum:'',
+    bathRoomNum:''
   }
   computed = {
     cards:() => {
       const rooms = this.spaceDetails.map(this.convertToCard);
       // console.log(rooms);
       const res = !this.photo2DUrl?rooms :[{class:'head',description:this.description, photos:[{ photo:this.photo2DUrl, type:'aerial'}], title:"俯视图"}, ...rooms];
-      return res;
+      const data = res.map((r,id) =>{
+        const {photos} = r;
+        return {...r, photos:photos.map(p=>({...p,spaceId:id}))}
+      });
+      return data;
     }
   }
   methods = {
-    tap(imageIdx, event) {
-      const spaceIdx = this.$index;
+    tap(spaceIdx,imageIdx, event) {
       const urls = this.cards[spaceIdx]['photos'].map(({photo})=>photo);
       const current = urls[imageIdx];
       wx.previewImage({
@@ -62,10 +84,16 @@ export default class Detail extends wepy.page {
     })
     const [err ,resp] = await fetchDesignDetail(assetId);
     if(!err){
-      const {data:{spaceDetails,description,photo2DUrl}} = resp;
+      const {data:{spaceDetails,description,photo2DUrl,cityName,bathRoomNum,bedRoomNum, livingRoomNum,roomArea,name}} = resp;
       this.spaceDetails = spaceDetails;
       this.description = description;
       this.photo2DUrl = photo2DUrl;
+      this.bathRoomNum = bathRoomNum;
+      this.livingRoomNum = livingRoomNum;
+      this.bedRoomNum = bedRoomNum;
+      this.roomArea = roomArea;
+      this.name = name;
+      this.cityName = cityName;
       this.$apply();
     }
     wx.hideLoading();
